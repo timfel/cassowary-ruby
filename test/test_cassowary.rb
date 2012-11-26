@@ -1,7 +1,4 @@
-$LOAD_PATH.unshift("../../lib", __FILE__)
-
-require "test/unit"
-require "cassowary"
+require File.expand_path("../test_helper", __FILE__)
 
 class CassowaryTests < Test::Unit::TestCase
   include Cassowary
