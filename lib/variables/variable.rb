@@ -46,7 +46,7 @@ module Cassowary
     end
 
     def -@
-      -1.0 * self
+      -1.0.as_linear_expression * self
     end
 
     def inspect
