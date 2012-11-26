@@ -12,11 +12,11 @@ module Cassowary
       case levels
       when Hash
         levels.each_pair do |k, v|
-          @levels[k - 1] = v
+          self[k] = v
         end
       when Array
         levels.each_with_index do |e, idx|
-          @levels[idx - 1] = e
+          self[idx] = e
         end
       else
         raise InternalError
@@ -72,7 +72,7 @@ module Cassowary
     end
 
     def <=>(other)
-      return nil unless other.is_a? SymbolicWeight
+      raise InternalError unless other.is_a? SymbolicWeight
       each_with_index do |e, idx|
         return -1 if e < other[idx]
         return 1 if e > other[idx]

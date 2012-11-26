@@ -379,6 +379,7 @@ module Cassowary
     def dual_optimize
       # We have set new values for the constants in the edit
       # constraints.  Re-optimize using the dual simplex algorithm.
+      entry_var = nil
       zrow = rows[objective]
       until infeasible_rows.empty?
         exit_var = infeasible_rows.shift
@@ -404,7 +405,9 @@ module Cassowary
 
     def find_edit_error_index(evars)
       evars.each do |v|
-        return index if index = edit_plus_error_vars.index(v)
+        if index = edit_plus_error_vars.index(v)
+          return index
+        end
       end
       raise InternalError, "didn't find a variable"
     end
