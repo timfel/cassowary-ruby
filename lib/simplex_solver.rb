@@ -235,12 +235,12 @@ module Cassowary
       # not, the original constraint was unsatisfiable.
       raise RequiredFailure unless azrow.constant.cl_approx_zero
 
-      if rows[av]
+      if e = rows[av]
         # Find another variable in this row and pivot, so that av
         # becomes parametric.  If there isn't another variable in the
         # row then the tableau contains the equation av=0 -- just
         # delete av's row.
-        if rows[av].constant?
+        if e.constant?
           remove_row(av)
           return nil
         else
