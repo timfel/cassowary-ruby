@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   s.description = File.read(File.expand_path("../README.md", __FILE__))
   s.authors     = ["Tim Felgentreff"]
   s.email       = 'tim@bithug.org'
-  s.files       = ["README.md", "LICENSE", "lib/**/*.rb"]
+  s.files       = Dir["README.md", "LICENSE", "lib/**/*.rb"]
   s.homepage    = 'https://github.com/timfel/cassowary-ruby'
 
-  s.test_files = ["test/*.rb"]
+  s.test_files = Dir["test/*.rb"]
 end
