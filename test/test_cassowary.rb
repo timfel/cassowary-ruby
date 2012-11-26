@@ -100,12 +100,10 @@ class CassowaryTests < Test::Unit::TestCase
   end
 
   def test_stay1
-    x = Variable.new name: 'x'
+    x = Variable.new name: 'x', value: 20
     solver = SimplexSolver.new
 
-    stay = StayConstraint.new variable: x, strength: Strength::WeakStrength
-
-    solver.add_constraint stay
+    solver.add_stay x, Strength::WeakStrength
     assert x.value.cl_approx 20
   end
 
@@ -141,11 +139,11 @@ class CassowaryTests < Test::Unit::TestCase
   end
 
   def test_edit1
-    x = Variable.new name: 'x'
-    y = Variable.new name: 'y'
+    x = Variable.new name: 'x', value: 20
+    y = Variable.new name: 'y', value: 30
 
     solver = SimplexSolver.new
-    solver.add_constraint StayConstraint.new variable: x, strength: Strength::WeakStrength
+    solver.add_stay x, Strength::WeakStrength
     solver.add_constraint x.cn_geq 10
     solver.add_constraint x.cn_leq 100
     solver.add_constraint x.cn_equal y * 2
