@@ -319,7 +319,7 @@ module Cassowary
       # subject is nil.  Make one last check -- if all of the
       # variables in expr are dummy variables, then we can pick a
       # dummy variable as the subject.
-      return subject if subject.nil?
+      return subject unless subject.nil?
       expr.each_variable_and_coefficient do |v, c|
         return nil unless v.dummy?
         # if v is new to the solver tentatively make it the subject
