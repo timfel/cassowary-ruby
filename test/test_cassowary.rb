@@ -62,6 +62,10 @@ class CassowaryTests < Test::Unit::TestCase
     solver.remove_constraint cxy
     assert x.value.cl_approx 100
     assert y.value.cl_approx 120
+
+    cxy2 = (x * 1.as_linear_expression).cn_equal(1000)
+    solver.add_constraint cxy2
+    assert x.value.cl_approx 1000
   end
 
   def test_add_delete3
