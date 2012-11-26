@@ -133,7 +133,7 @@ module Cassowary
       result = LinearExpression.new
       result.constant = constant + expr.constant
       terms.each_pair do |v, c|
-        retuls.terms[v] = c
+        result.terms[v] = c
       end
       expr.each_variable_and_coefficient do |v, c|
         result.add_variable(v, c)
@@ -155,7 +155,7 @@ module Cassowary
     end
 
     def inspect
-      terms.keys.sort.inject(constant.inspect) do |str, v|
+      terms.keys.inject(constant.inspect) do |str, v|
         "#{str}+#{terms[v].inspect}*#{v.inspect}"
       end
     end
