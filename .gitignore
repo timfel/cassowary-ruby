@@ -1,0 +1,4 @@
+/.rbx
+/coverage
+Gemfile.lock
+cassowary-ruby-*.gem
