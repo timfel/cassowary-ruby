@@ -1,4 +1,5 @@
 ## Cassowary
+[![Build Status](https://secure.travis-ci.org/timfel/cassowary.png?branch=master)](https://travis-ci.org/timfel/cassowary)
 
 Cassowary is an incremental constraint solving toolkit that
 efficiently solves systems of linear equalities and
