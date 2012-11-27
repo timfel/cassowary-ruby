@@ -8,6 +8,6 @@ Gem::Specification.new do |s|
   s.email       = 'tim@bithug.org'
   s.files       = Dir["README.md", "LICENSE", "lib/**/*.rb"]
   s.homepage    = 'https://github.com/timfel/cassowary-ruby'
-
-  s.test_files = Dir["test/*.rb"]
+  s.license     = 'MIT'
+  s.test_files  = Dir["test/*.rb"]
 end
