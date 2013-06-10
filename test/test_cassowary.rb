@@ -139,7 +139,7 @@ class CassowaryTests < Test::Unit::TestCase
     assert x.value.cl_approx 15
   end
 
-  def test_edit1
+  def test_edit1var
     x = Variable.new name: 'x', value: 20
     y = Variable.new name: 'y', value: 30
 
@@ -181,4 +181,38 @@ class CassowaryTests < Test::Unit::TestCase
 
     solver.end_edit
   end
+
+  def test_edit2vars
+    x = Variable.new name: 'x', value: 20
+    y = Variable.new name: 'y', value: 30
+    z = Variable.new name: 'z', value: 120
+
+    solver = SimplexSolver.new
+    solver.add_stay x, Strength::WeakStrength
+    solver.add_stay z, Strength::WeakStrength
+    solver.add_constraint z.cn_equal x*2 + y
+    assert x.value.cl_approx 20
+    assert y.value.cl_approx 80
+    assert z.value.cl_approx 120
+
+    solver.add_edit_var x, Strength::StrongStrength
+    solver.add_edit_var y, Strength::StrongStrength
+    solver.begin_edit
+    solver.suggest_value x, 10
+    solver.suggest_value y, 5
+    solver.resolve
+    assert x.value.cl_approx 10
+    assert y.value.cl_approx 5
+    assert z.value.cl_approx 25
+
+    solver.suggest_value x, -10
+    solver.suggest_value y, 15
+    solver.resolve
+    assert x.value.cl_approx -10
+    assert y.value.cl_approx 15
+    assert z.value.cl_approx -5
+    solver.end_edit
+  end
+
+
 end
