@@ -30,4 +30,19 @@ class VariablesTests < Test::Unit::TestCase
     x = Cassowary::SlackVariable.new
     assert_equal "<CV#0x" + x.object_id.to_s(16) + ">", x.inspect
   end
+
+  def test_evaluating_linear_expressions
+    x = Cassowary::Variable.new name: 'x', value: 20
+    expr = x / 10
+    assert expr.value == 2
+
+    expr *= 2
+    assert expr.value == 4
+
+    expr += 10
+    assert expr.value == 14
+
+    expr -= 3
+    assert expr.value == 11
+  end
 end

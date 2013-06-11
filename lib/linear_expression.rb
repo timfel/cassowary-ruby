@@ -37,6 +37,12 @@ module Cassowary
       terms.empty?
     end
 
+    def value
+      terms.keys.inject(constant) do |memo, v|
+        memo + coefficient_for(v) * v.value
+      end
+    end
+
     def each_variable_and_coefficient(&block)
       terms.each_pair(&block)
     end
