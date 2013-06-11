@@ -1,7 +1,7 @@
 # Copyright (C) 2012 by Tim Felgentreff
 
 module Cassowary
-  class LinearExpression
+  class LinearExpression < ConstraintObject
     include Equalities
 
     attr_accessor :constant, :terms
@@ -27,6 +27,12 @@ module Cassowary
 
     def as_linear_expression
       self
+    end
+
+    def value
+      terms.keys.inject(constant) do |memo, v|
+        memo + terms[v] * v.value
+      end
     end
 
     def coefficient_for(variable)

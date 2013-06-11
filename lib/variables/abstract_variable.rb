@@ -1,7 +1,7 @@
 # Copyright (C) 2012 by Tim Felgentreff
 
 module Cassowary
-  class AbstractVariable
+  class AbstractVariable < ConstraintObject
     attr_accessor :name
 
     def initialize(hash = {})

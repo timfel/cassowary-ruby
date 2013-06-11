@@ -13,6 +13,14 @@ module Cassowary
 
     Epsilon = 1.0e-8
 
+    def self.instance
+      @instance ||= begin
+                      s = SimplexSolver.new
+                      s.auto_solve = false
+                      s
+                    end
+    end
+
     def add_bounds(var, lower = nil, upper = nil)
       add_constraint lower.cn_leq(var) if lower
       add_constraint var.cn_leq(upper) if upper

@@ -52,5 +52,21 @@ module Cassowary
     def inspect
       "#{super}[#{value.inspect}]"
     end
+
+    def stay(strength = :strong)
+      Cassowary::SimplexSolver.instance.add_stay(self, Cassowary.symbolic_strength(strength))
+      self
+    end
+
+    def suggest_value(v)
+      # SimplexSolver.instance.add_edit_var(self, Strength::StrongStrength)
+      # SimplexSolver.instance.begin_edit
+      c = self == v
+      SimplexSolver.instance.add_constraint(c)
+      # SimplexSolver.instance.suggest_value(self, v)
+      SimplexSolver.instance.solve
+      SimplexSolver.instance.remove_constraint(c)
+      # SimplexSolver.instance.end_edit
+    end
   end
 end
