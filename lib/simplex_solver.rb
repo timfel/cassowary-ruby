@@ -137,7 +137,7 @@ module Cassowary
         prev_edit_constants.delete_at(index)
       end
 
-      if auto_solve or constraint.edit_constraint?
+      if auto_solve or cn.edit_constraint?
         optimize(zrow)
         set_external_variables
       end
