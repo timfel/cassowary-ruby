@@ -23,7 +23,7 @@ module Cassowary
       unless try_adding_directly(expr)
         add_with_artificial_variable(expr)
       end
-      if auto_solve or constraint.edit_constraint?
+      if auto_solve
         optimize(objective)
         set_external_variables
       end
@@ -137,7 +137,7 @@ module Cassowary
         prev_edit_constants.delete_at(index)
       end
 
-      if auto_solve or cn.edit_constraint?
+      if auto_solve
         optimize(zrow)
         set_external_variables
       end
