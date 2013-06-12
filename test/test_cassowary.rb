@@ -82,6 +82,26 @@ class CassowaryTests < Test::Unit::TestCase
     assert x.value.cl_approx 200
   end
 
+  def test_auto_solve_off
+    x = Variable.new name: 'x'
+    y = Variable.new name: 'y'
+    solver = SimplexSolver.new
+    solver.auto_solve = false
+    solver.add_constraint x.cn_equal(1.0, Strength::WeakStrength)
+    solver.add_constraint y.cn_equal(5.0, Strength::StrongStrength)
+    solver.solve
+    assert x.value.cl_approx(1.0)
+    assert y.value.cl_approx(5.0)
+    solver.add_constraint ((x*2).cn_equal y)
+    # the y=x*2 shouldn't be satisfied yet
+    assert x.value.cl_approx(1.0)
+    assert y.value.cl_approx(5.0)
+    solver.solve
+    # now it should be
+    assert x.value.cl_approx(2.5)
+    assert y.value.cl_approx(5.0)
+  end
+
   def test_inconsistent1
     x = Variable.new name: 'x'
     solver = SimplexSolver.new
@@ -197,6 +217,45 @@ class CassowaryTests < Test::Unit::TestCase
 
     solver.add_edit_var x, Strength::StrongStrength
     solver.add_edit_var y, Strength::StrongStrength
+    solver.begin_edit
+    solver.suggest_value x, 10
+    solver.suggest_value y, 5
+    solver.resolve
+    assert x.value.cl_approx 10
+    assert y.value.cl_approx 5
+    assert z.value.cl_approx 25
+
+    solver.suggest_value x, -10
+    solver.suggest_value y, 15
+    solver.resolve
+    assert x.value.cl_approx -10
+    assert y.value.cl_approx 15
+    assert z.value.cl_approx -5
+    solver.end_edit
+  end
+
+  def test_edit2vars_no_auto_solve
+    # same as test_edit2vars, except that auto_solve is set to false
+    # for the solver
+    x = Variable.new name: 'x', value: 20
+    y = Variable.new name: 'y', value: 30
+    z = Variable.new name: 'z', value: 120
+
+    solver = SimplexSolver.new
+    solver.auto_solve = false
+    solver.add_stay x, Strength::WeakStrength
+    solver.add_stay z, Strength::WeakStrength
+    solver.add_constraint z.cn_equal x*2 + y
+    # note that we need to call solve explicitly for the
+    # variables to be solved for
+    solver.solve  
+    assert x.value.cl_approx 20
+    assert y.value.cl_approx 80
+    assert z.value.cl_approx 120
+
+    solver.add_edit_var x, Strength::StrongStrength
+    solver.add_edit_var y, Strength::StrongStrength
+    solver.solve
     solver.begin_edit
     solver.suggest_value x, 10
     solver.suggest_value y, 5
